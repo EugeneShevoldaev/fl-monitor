@@ -345,6 +345,19 @@ def save_json(path: Path, data) -> None:
     tmp.replace(path)
 
 
+def plural(n: int, one: str, few: str, many: str) -> str:
+    """Русское склонение: 1 строка, 2 строки, 5 строк."""
+    n = abs(int(n)) % 100
+    if 11 <= n <= 19:
+        return many
+    n %= 10
+    if n == 1:
+        return one
+    if 2 <= n <= 4:
+        return few
+    return many
+
+
 def clean(s: str) -> str:
     s = re.sub(r"<[^>]+>", "", s or "")
     s = html.unescape(s)
@@ -671,7 +684,8 @@ def main() -> int:
         info = infos.get(it["link"])
         if not info:
             return ""
-        out = f"📄 ТЗ: {info['lines']} стр., {info['chars']} зн.\n"
+        out = (f"📄 ТЗ: {plural(info['lines'], 'строка', 'строки', 'строк')}, "
+           f"{info['chars']} зн.\n")
         if info["tags"]:
             tags = ", ".join(info["tags"][:4])
             out += f"🏷 {html.escape(tags)}\n"
