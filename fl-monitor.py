@@ -684,7 +684,8 @@ def main() -> int:
         info = infos.get(it["link"])
         if not info:
             return ""
-        out = (f"📄 ТЗ: {plural(info['lines'], 'строка', 'строки', 'строк')}, "
+        out = (f"📄 ТЗ: {info['lines']} "
+           f"{plural(info['lines'], 'строка', 'строки', 'строк')}, "
            f"{info['chars']} зн.\n")
         if info["tags"]:
             tags = ", ".join(info["tags"][:4])
